@@ -32,6 +32,7 @@ jobs:
       # Copy site output into docs folder
       - name: Copy site
         run: |
+          git config pull.rebase true
           git pull origin docs
           mkdir -p $GITHUB_WORKSPACE/docs
           cp -pr $GITHUB_WORKSPACE/target/site/* $GITHUB_WORKSPACE/docs/
