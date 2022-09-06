@@ -38,5 +38,5 @@ jobs:
           git config user.email "${{github.actor}}@noreply.users.github.com"
           git config user.name "${{github.actor}}"
           git add $GITHUB_WORKSPACE/docs
-          git commit -m "Updated site docs"
+          git commit -m "Updated site docs (${{github.event.head_commit.message}})"
           git push origin docs:docs
