@@ -14,7 +14,9 @@ jobs:
           fetch-depth: 0
       # Rebase the docs branch over the dev commit
       - name: Rebase docs branch
-        run: git rebase ${{github.ref_name}} docs
+        run: |
+          git pull origin ${{github.ref_name}} 
+          git rebase ${{github.ref_name}} docs
       # Set up a JDK, configure a local cache for Maven dependencies
       - name: Set up JDK
         uses: actions/setup-java@v3
