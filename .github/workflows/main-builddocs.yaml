@@ -39,3 +39,4 @@ jobs:
           git config user.name "${{github.actor}}"
           git add $GITHUB_WORKSPACE/docs
           git commit -m "Updated site docs"
+          git push origin docs:docs
