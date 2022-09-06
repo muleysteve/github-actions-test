@@ -14,7 +14,7 @@ def __add_coverage_to_json(output, key, elem):
 		'total': covered + missed,
 		'covered': covered,
 		'missed': missed,
-		'coverage': covered / (covered + missed)
+		'coverage': (covered / (covered + missed)) * 100.0
 	}
 
 
