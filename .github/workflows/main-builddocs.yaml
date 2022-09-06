@@ -30,7 +30,9 @@ jobs:
         run: mvn -B verify site
       # Copy site output into docs folder
       - name: Copy site
-        run: cp -pr $GITHUB_WORKSPACE/target/site/* $GITHUB_WORKSPACE/docs/
+        run: |
+          mkdir -p $GITHUB_WORKSPACE/docs
+          cp -pr $GITHUB_WORKSPACE/target/site/* $GITHUB_WORKSPACE/docs/
       # Commit changes in docs
       - name: Commit
         run: |
