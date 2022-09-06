@@ -35,5 +35,7 @@ jobs:
       # Commit changes in docs
       - name: Commit
         run: |
+          git config user.email "${{github.actor}}@noreply.users.github.com"
+          git config user.name "${{github.actor}}"
           git add $GITHUB_WORKSPACE/docs
           git commit -m "Updated site docs"
