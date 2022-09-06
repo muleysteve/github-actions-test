@@ -1,0 +1,33 @@
+name: Build docs site
+on:
+  push:
+    branches:
+      - devel-*
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out docs branch
+      - uses: actions/checkout@v3
+        with:
+          ref: 'docs'
+      # Rebase the docs branch over the dev commit
+      - name: Rebase docs
+        run: git rebase ${{github.ref_name}}
+      # Set up a JDK, configure a local cache for Maven dependencies
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: adopt
+          architecture: x64
+          cache: maven
+      # Run Maven
+      - name: Run mvn verify site
+        run: mvn -B verify site
+      # Copy site output into docs folder
+      - name: Copy site
+        run: cp -pr $GITHUB_WORKSPACE/target/site/* $GITHUB_WORKSPACE/docs/
+      # Commit changes in docs
+      - name: Commit
+        run: git add $GITHUB_WORKSPACE/docs && git commit -m "Updated site docs"

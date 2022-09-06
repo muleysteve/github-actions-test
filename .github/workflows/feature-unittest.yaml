@@ -1,0 +1,28 @@
+name: Run unit tests
+on:
+  push:
+    branches:
+      - feature/*
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out branch
+      - uses: actions/checkout@v3
+      # Set up a JDK, configure a local cache for Maven dependencies
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: adopt
+          architecture: x64
+          cache: maven
+      # Run Maven
+      - name: Run mvn test
+        run: mvn -B clean test
+      # Save the surefire test reports
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/

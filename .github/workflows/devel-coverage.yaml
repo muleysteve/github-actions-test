@@ -1,0 +1,39 @@
+name: Run unit tests
+on:
+  pull_request:
+    branches:
+      - devel-*
+jobs:
+  verify:
+    name: Run tests with coverage
+    runs-on: ubuntu-latest
+    steps:
+      # Check out branch
+      - uses: actions/checkout@v3
+      # Set up a JDK, configure a local cache for Maven dependencies
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: adopt
+          architecture: x64
+          cache: maven
+      # Run Maven
+      - name: Run mvn verify
+        run: mvn -B clean verify
+      # Save the coverage reports
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-reports
+          path: target/site/jacoco/
+      # Get the overall coverage value and format
+      - name: Extract overall coverage value
+        id: get-coverage
+        run: echo ::set-output name=coverage::$(scripts/coverage.py | jq -r '.branches.coverage' | xargs printf '%.3f%%\n')
+      # Add a comment on the PR with the test coverage value
+      - name: Upsert comment on PR
+        uses: thollander/actions-comment-pull-request@v1.4.1
+        with:
+          message: Branch code coverage reported as ${{ steps.get-coverage.outputs.coverage }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
