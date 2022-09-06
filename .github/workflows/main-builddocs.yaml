@@ -9,11 +9,9 @@ jobs:
     steps:
       # Check out docs branch
       - uses: actions/checkout@v3
-        with:
-          ref: 'docs'
       # Rebase the docs branch over the dev commit
-      - name: Rebase docs
-        run: git rebase ${{github.ref_name}}
+      - name: Rebase docs branch
+        run: git rebase ${{github.ref_name}} docs
       # Set up a JDK, configure a local cache for Maven dependencies
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -30,4 +28,6 @@ jobs:
         run: cp -pr $GITHUB_WORKSPACE/target/site/* $GITHUB_WORKSPACE/docs/
       # Commit changes in docs
       - name: Commit
-        run: git add $GITHUB_WORKSPACE/docs && git commit -m "Updated site docs"
+        run: |
+          git add $GITHUB_WORKSPACE/docs
+          git commit -m "Updated site docs"
