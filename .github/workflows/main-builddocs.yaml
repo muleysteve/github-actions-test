@@ -15,6 +15,7 @@ jobs:
       # Rebase the docs branch over the dev commit
       - name: Rebase docs branch
         run: |
+          git pull origin docs
           git config user.email "${{github.actor}}@noreply.users.github.com"
           git config user.name "${{github.actor}}"
           git rebase origin/${{github.ref_name}} docs
@@ -37,6 +38,7 @@ jobs:
       # Commit changes in docs
       - name: Commit
         run: |
+          git status
           git config user.email "${{github.actor}}@noreply.users.github.com"
           git config user.name "${{github.actor}}"
           git add $GITHUB_WORKSPACE/docs
