@@ -9,6 +9,8 @@ jobs:
     steps:
       # Check out docs branch
       - uses: actions/checkout@v3
+        with:
+          depth: 0
       # Rebase the docs branch over the dev commit
       - name: Rebase docs branch
         run: git rebase ${{github.ref_name}} docs
