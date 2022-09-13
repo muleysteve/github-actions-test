@@ -22,11 +22,31 @@
     <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     <jacoco.plugin.version>0.8.8</jacoco.plugin.version>
     <javadoc.version>3.4.1</javadoc.version>
+    <checkstyle.version>3.2.0</checkstyle.version>
+    <build-helper.version>1.12</build-helper.version>
   </properties>
  
   <!-- Build Settings -->
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${build-helper.version}</version>
+        <executions>
+          <execution>
+            <id>timestamp-property</id>
+            <goals>
+              <goal>timestamp-property</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <name>current.year</name>
+              <pattern>yyyy</pattern>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.10.1</version>
@@ -107,6 +127,18 @@
           </reportSet>
         </reportSets>
       </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${checkstyle.version}</version>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
     </plugins>
   </reporting>
 </project>
