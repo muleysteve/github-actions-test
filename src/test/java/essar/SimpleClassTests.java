@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit tests for {@link SimpleClass}.
  */
-public class SimpleClassTests
-{
+public class SimpleClassTests {
 	
 	@Test
 	public void testSayHello() {
