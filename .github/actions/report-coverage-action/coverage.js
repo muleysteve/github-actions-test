@@ -41,6 +41,8 @@ try {
   if (elements.includes("all") || elements.includes("method"))
     output.methods = parseCoverage(doc, "METHOD")
 
+  core.notice(`Current branch coverage is {output.branches.coverage.toFixed(3)}%`)
+
   console.log(output)
   core.setOutput("branchCoverage", output.branches.coverage.toFixed(3))
 
