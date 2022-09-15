@@ -1,0 +1,17 @@
+name: 'Report Coverage'
+description: 'Report the current test coverage'
+inputs:
+  output-file:
+    description: 'Location to the Jacoco XML output file'
+    required: true
+    default: '${{github.workspace}}/target/site/jacoco/jacoco.xml'
+  elements:
+    description: 'Comma-separated list of elements to report (instruction/line/branch/method), or "all"'
+    required: true
+    default: 'all'
+outputs:
+  branchCoverage:
+    description: 'Branch test coverage (percentage)'
+runs:
+  using: 'node16'
+  main: 'coverage.js'

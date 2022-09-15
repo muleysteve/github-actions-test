@@ -1,11 +1,11 @@
-name: Report test coverage
+name: Code quality checks
 on:
   pull_request:
     branches:
       - devel-*
 jobs:
-  verify:
-    name: Run tests with coverage
+  coverage:
+    name: Test coverage
     runs-on: ubuntu-latest
     steps:
       # Check out branch
@@ -20,20 +20,17 @@ jobs:
           cache: maven
       # Run Maven
       - name: Run mvn verify
-        run: mvn -B clean verify
-      # Save the coverage reports
-      - name: Archive test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-reports
-          path: target/site/jacoco/
+        run: mvn -B clean verify -Dmaven.test.failure.ignore=true
       # Get the overall coverage value and format
-      - name: Extract overall coverage value
-        id: get-coverage
-        run: echo ::set-output name=coverage::$(python3 scripts/coverage.py | jq -r '.branches.coverage' | xargs printf '%.3f%%\n')
+      - name: Extract branch coverage value
+        id: report-coverage
+        uses: ./.github/actions/report-coverage-action
+        with:
+          output-file: ${{github.workspace}}/target/site/jacoco/jacoco.xml
+          elements: branch
       # Add a comment on the PR with the test coverage value
       - name: Upsert comment on PR
         uses: thollander/actions-comment-pull-request@v1.4.1
         with:
-          message: Branch code coverage reported as ${{ steps.get-coverage.outputs.coverage }}
+          message: Branch code coverage reported as ${{ steps.report-coverage.outputs.branchCoverage }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
