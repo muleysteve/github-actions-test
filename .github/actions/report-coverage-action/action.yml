@@ -4,7 +4,7 @@ inputs:
   output-file:  # id of input
     description: 'Location to the Jacoco XML output file'
     required: true
-    default: '${GITHUB_WORKSPACE}/target/site/jacoco/jacoco.xml'
+    default: '${{github.workspace}}/target/site/jacoco/jacoco.xml'
   elements:
     description: 'Comma-separated list of elements to report (instruction/line/branch/method), or "all"'
     required: true
