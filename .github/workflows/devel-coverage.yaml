@@ -29,11 +29,12 @@ jobs:
           path: target/site/jacoco/
       # Get the overall coverage value and format
       - name: Extract overall coverage value
-        id: get-coverage
-        run: echo ::set-output name=coverage::$(python3 scripts/coverage.py | jq -r '.branches.coverage' | xargs printf '%.3f%%\n')
+        id: report-coverage
+        uses: ./.github/actions/report-coverage-action
+        #run: echo ::set-output name=coverage::$(python3 scripts/coverage.py | jq -r '.branches.coverage' | xargs printf '%.3f%%\n')
       # Add a comment on the PR with the test coverage value
       - name: Upsert comment on PR
         uses: thollander/actions-comment-pull-request@v1.4.1
         with:
-          message: Branch code coverage reported as ${{ steps.get-coverage.outputs.coverage }}
+          message: Branch code coverage reported as ${{ steps.report-coverage.outputs.coverage }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
