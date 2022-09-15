@@ -33,15 +33,13 @@ try {
     output.instructions = parseCoverage(doc, "INSTRUCTION")
   
   if (elements.includes("all") || elements.includes("line"))
-  output.lines = parseCoverage(doc, "LINE")
+    output.lines = parseCoverage(doc, "LINE")
   
   if (elements.includes("all") || elements.includes("branch"))
-  output.branches = parseCoverage(doc, "COMPLEXITY")
+    output.branches = parseCoverage(doc, "COMPLEXITY")
   
   if (elements.includes("all") || elements.includes("method"))
     output.methods = parseCoverage(doc, "METHOD")
-
-  core.notice(`Current branch coverage is {output.branches.coverage.toFixed(3)}%`)
 
   console.log(output)
   core.setOutput("branchCoverage", output.branches.coverage.toFixed(3))
