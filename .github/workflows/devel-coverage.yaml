@@ -31,6 +31,9 @@ jobs:
       - name: Extract overall coverage value
         id: report-coverage
         uses: ./.github/actions/report-coverage-action
+        with:
+          output-file: $GITHUB_WORKSPACE/target/site/jacoco/jacoco.xml
+          elements: branch
         #run: echo ::set-output name=coverage::$(python3 scripts/coverage.py | jq -r '.branches.coverage' | xargs printf '%.3f%%\n')
       # Add a comment on the PR with the test coverage value
       - name: Upsert comment on PR
