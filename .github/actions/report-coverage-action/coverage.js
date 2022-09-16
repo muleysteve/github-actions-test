@@ -3,7 +3,7 @@ const github = require("@actions/github")
 
 const fs = require('fs')
 const xpath = require("xpath")
-const dom = require("xmldom").DOMParser
+const dom = require("@xmldom/xmldom").DOMParser
 
 function parseCoverage(doc, key) {
   const covered = parseInt(xpath.select1("report/counter[@type='" + key + "']/@covered", doc).value)
