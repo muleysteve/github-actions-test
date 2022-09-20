@@ -8,4 +8,7 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: ".github/actions/report-coverage-action" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    ignore:
+      dependency-type:
+        - development
